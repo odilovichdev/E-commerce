@@ -4,9 +4,11 @@ from store.models import Product, ProductCategory
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = "name", "slug", "desc", "price", "category", "is_available"
+    # exclude = ("slug",)
+    readonly_fields = ("slug",)
 
 
 @admin.register(ProductCategory)
 class ProductCategoryModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("name", )

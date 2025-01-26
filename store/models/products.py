@@ -1,6 +1,7 @@
 from django.db import models
 from common.models import BaseModel
 from django.utils.translation import gettext_lazy as _
+from django.template.defaultfilters import slugify
 
 from common.file_path_renamer import PathAndRename
 
@@ -24,6 +25,8 @@ class ProductCategory(BaseModel):
 class Product(BaseModel):
     name = models.CharField(max_length=255, verbose_name=_(
         "Name"), db_index=True, unique=True)
+    slug = models.SlugField(max_length=255, unique=True,
+                            blank=True, null=True)
     desc = models.TextField(verbose_name=_("Description"))
     price = models.DecimalField(
         max_digits=10, decimal_places=2, verbose_name=_("Price"))
@@ -37,6 +40,10 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("Product")
