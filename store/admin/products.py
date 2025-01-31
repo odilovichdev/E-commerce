@@ -13,10 +13,9 @@ class ProductImageInline(admin.TabularInline):
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
     list_display = (
+        "image_tags",
         "name",
-        "image",
         'stock',
-        "desc", 
         "price", 
         "category", 
         "is_available"
@@ -24,13 +23,13 @@ class ProductModelAdmin(admin.ModelAdmin):
     list_filter = ("category", "is_available", "is_active")
     search_fields = ("name", "category__name")
     inlines = [ProductImageInline]
-    # readonly_fields = ("image", )
+    prepopulated_fields = {"slug": ("name",)}
     
 
-    def image(self, obj):
-        return format_html('<img src="{}" width="50" height="50"/>'.format(obj.image.url))
+    def image_tags(self, obj):
+        return format_html('<img src="{}" width="100" height="100"/>'.format(obj.image.url))
     
-    image.short_description = "Images"
+    image_tags.short_description = "Images"
 
 
 @admin.register(ProductCategory)
