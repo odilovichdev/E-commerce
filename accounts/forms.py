@@ -115,15 +115,13 @@ class UserLoginForm(forms.Form):
         email = cleaned_data.get("email")
         password = cleaned_data.get("password")
 
-        self.user = CustomUser.objects.filter(email=email).first()
-
-        if self.user is None:
-            raise ValidationError("Bu email bilan ro'yxatdan o'tilmagan!")
-        
-        self.user = authenticate(email=email, password=password)
-
-        if self.user is None:
-            raise ValidationError("Email yoki password xato!")
+        if email and password:
+            self.user = authenticate(email=email, password=password)
+            if self.user is None:
+                raise ValidationError("Email yoki password xato!")
+            
+            if not self.user.is_active:
+                raise ValidationError("User active emas!")
         
         return cleaned_data
     

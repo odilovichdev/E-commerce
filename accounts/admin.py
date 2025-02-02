@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import CustomUser
+
+from .models import CustomUser, Profile
 
 
 @admin.register(CustomUser)
@@ -35,3 +36,21 @@ class UserAdmin(BaseUserAdmin):
     ordering = "email",
     search_fields = ["email"]
     filter_horizontal = []
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "avatar",
+        "bio",
+        "birth_date",
+        "region",
+        "district",
+        "address"
+    )
+    list_filter = (
+        "region",
+        "district"
+    )
+    search_fields = ("user__name",)

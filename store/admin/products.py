@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.models import Group
 from django.utils.html import format_html
 from store.models import Product, ProductCategory,  ProductImage
 
@@ -36,8 +35,4 @@ class ProductModelAdmin(admin.ModelAdmin):
 class ProductCategoryModelAdmin(admin.ModelAdmin):
     list_display = ("name", )
 
-admin.site.unregister(Group)
-admin.site.site_header = "eCommerce Admin"
-admin.site.site_title = "eCommerce Admin Portal"
-admin.site.index_title = "Welcome to eCommerce Admin Panel"
-# admin.site.empty_value_display = "Mavjud Emas"
+
