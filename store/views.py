@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models.products import Product
 from .models.variations import Variation, VariationCategoryChoice
 
 
-# class StoreView(View):
+# class StoreView(LoginRequiredMixin,View):
 #     model = Product
 
 #     def get(self, request):
@@ -17,14 +18,14 @@ from .models.variations import Variation, VariationCategoryChoice
 #         return render(request, 'store/list.html', context)
 
 
-class StoreListView(ListView):
+class StoreListView(LoginRequiredMixin, ListView):
     model = Product
     queryset = Product.objects.filter(is_available=True)
     template_name = 'store/list.html'
     context_object_name = "products"
 
 
-# class ProductDetailView(View):
+# class ProductDetailView(LoginRequiredMixin, View):
 #     model = Product
 
 #     def get(self, request, slug):
@@ -35,7 +36,7 @@ class StoreListView(ListView):
 #         return render(request, 'store/detail.html', context)
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'store/detail.html'
     context_object_name = "product"

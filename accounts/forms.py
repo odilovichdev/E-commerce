@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 from django import forms
 from .models import CustomUser
 
@@ -63,7 +64,7 @@ class CustomUserCreationForm(forms.ModelForm):
         labels = {
             "email": "Email",
             "first_name": "Enter your first name",
-            "last_name": "Enter your first name",
+            "last_name": "Enter your last name",
             "password": "Password"
         }
         widgets = {
@@ -101,3 +102,31 @@ class CustomUserCreationForm(forms.ModelForm):
             **self.cleaned_data
         )
         return user
+
+
+class UserLoginForm(forms.Form):
+    email = forms.EmailField(label="Email")
+    password = forms.CharField(label="Enter your password",
+        widget=forms.PasswordInput)
+    user = None
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        password = cleaned_data.get("password")
+
+        self.user = CustomUser.objects.filter(email=email).first()
+
+        if self.user is None:
+            raise ValidationError("Bu email bilan ro'yxatdan o'tilmagan!")
+        
+        self.user = authenticate(email=email, password=password)
+
+        if self.user is None:
+            raise ValidationError("Email yoki password xato!")
+        
+        return cleaned_data
+    
+    def get_user(self):
+        return self.user
+        
