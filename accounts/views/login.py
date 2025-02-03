@@ -9,5 +9,5 @@ def login_view(request):
         if form.is_valid():
             login(request, form.get_user())
             return redirect("store:store_list")
-            
+
     return render(request, 'accounts/login.html', {"form": form})

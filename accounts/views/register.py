@@ -10,6 +10,7 @@ class RegisterView(CreateView):
     model = CustomUser
     template_name = "accounts/register.html"
     form_class = CustomUserCreationForm
+
     # success_url = reverse_lazy("store:store_list")
 
     def get_success_url(self):
@@ -19,15 +20,10 @@ class RegisterView(CreateView):
         messages.success(
             self.request, "Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi tizimga kiring.")
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         messages.error(self.request, "Iltimos formani to'g'ri to'ldiring!")
         return super().form_invalid(form)
-      
-    
-
-
-
 
 
 # class RegisterView(View):
@@ -38,7 +34,6 @@ class RegisterView(CreateView):
 #     def get(self, request, *args, **kwargs):
 #         form = self.form_class()
 #         return render(request, self.template_name, {"form":form})
-    
 
 
 #     def post(self, request, *args, **kwargs):
@@ -51,7 +46,6 @@ class RegisterView(CreateView):
 #         return render(request, self.template_name, {"form": form})
 
 def register_view(request):
-
     if request.method == "POST":
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():

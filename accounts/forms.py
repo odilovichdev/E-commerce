@@ -50,8 +50,9 @@ from .models import CustomUser
 
 
 class CustomUserCreationForm(forms.ModelForm):
-    password2 = forms.CharField(label="Confirm Password", 
-        widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm Password",
+                                widget=forms.PasswordInput)
+
     class Meta:
         model = CustomUser
         fields = (
@@ -70,33 +71,31 @@ class CustomUserCreationForm(forms.ModelForm):
         widgets = {
             "password": forms.PasswordInput
         }
-    
+
     def clean_email(self):
         email = self.cleaned_data['email']
 
         if "@" not in email:
             raise ValidationError("Email xato kiritildi!")
-        
+
         if CustomUser.objects.filter(email=email).exists():
             raise ValidationError("Bu email bilan user ro'yxatdan o'tgan!")
-        
+
         return email
-    
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password2 = cleaned_data.pop("password2")
-        
 
-        if password and password2 and password2!=password:
+        if password and password2 and password2 != password:
             raise ValidationError("Parollar bir xil bo'lishi kerak")
-        
 
-        if password and len(password)<4:
+        if password and len(password) < 4:
             raise ValidationError("Parol 4 tadan kam bo'lmasligi keark")
 
         return cleaned_data
-    
+
     def save(self):
         user = CustomUser.objects.create_user(
             **self.cleaned_data
@@ -107,9 +106,9 @@ class CustomUserCreationForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     email = forms.EmailField(label="Email")
     password = forms.CharField(label="Enter your password",
-        widget=forms.PasswordInput)
+                               widget=forms.PasswordInput)
     user = None
-    
+
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get("email")
@@ -119,12 +118,11 @@ class UserLoginForm(forms.Form):
             self.user = authenticate(email=email, password=password)
             if self.user is None:
                 raise ValidationError("Email yoki password xato!")
-            
+
             if not self.user.is_active:
                 raise ValidationError("User active emas!")
-        
+
         return cleaned_data
-    
+
     def get_user(self):
         return self.user
-        

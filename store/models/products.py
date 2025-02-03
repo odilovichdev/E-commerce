@@ -5,7 +5,6 @@ from django.template.defaultfilters import slugify
 
 from common.file_path_renamer import PathAndRename
 
-
 produc_prumbnail_path_and_rename = PathAndRename("products/trumbnail")
 products_images_path_and_rename = PathAndRename("products/images")
 
@@ -41,7 +40,7 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.name
-    
+
     @property
     def is_in_stock(self):
         return self.stock > 0
@@ -62,7 +61,7 @@ class ProductImage(BaseModel):
 
     def __str__(self):
         return f"{self.product.name} image"
-    
+
     class Meta:
         verbose_name = _("Product Image")
         verbose_name_plural = _("Product Images")

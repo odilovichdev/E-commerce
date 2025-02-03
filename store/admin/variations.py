@@ -1,6 +1,7 @@
 from django.contrib import admin
 from store.models import Variation
 
+
 @admin.register(Variation)
 class VariationModelAdmin(admin.ModelAdmin):
     list_display = (
@@ -19,4 +20,3 @@ class VariationModelAdmin(admin.ModelAdmin):
         "product__name",
     )
     autocomplete_fields = ("product",)
-

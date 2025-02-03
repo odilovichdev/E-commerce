@@ -9,12 +9,12 @@ class VariationCategoryChoice(models.TextChoices):
 class VariationManager(models.Manager):
     def color(self):
         return super(VariationManager, self).filter(
-            variation_category=VariationCategoryChoice.COLOR, 
+            variation_category=VariationCategoryChoice.COLOR,
             is_active=True
         )
-    
+
     def size(self):
         return super(VariationManager, self).filter(
-            variation_category=VariationCategoryChoice.SIZE, 
+            variation_category=VariationCategoryChoice.SIZE,
             is_active=True
         )

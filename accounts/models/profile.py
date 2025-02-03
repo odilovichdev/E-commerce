@@ -5,7 +5,6 @@ from .accounts import CustomUser
 from common.models import BaseModel, Region, District
 from common.file_path_renamer import PathAndRename
 
-
 user_avatar_path = PathAndRename("avatars/")
 
 
@@ -26,7 +25,7 @@ class Profile(BaseModel):
 
     def __str__(self):
         return f"{self.user.email} Profile"
-    
+
     class Meta:
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")

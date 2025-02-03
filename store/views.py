@@ -44,7 +44,7 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'slug'
 
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         product = self.get_object()
         context["size_variations"] = Variation.objects.filter(
             product=product, variation_category=VariationCategoryChoice.SIZE

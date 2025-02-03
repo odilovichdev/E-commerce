@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from django.utils.deconstruct import deconstructible
 
+
 @deconstructible
 class PathAndRename(object):
     """File rename & repath
@@ -13,7 +14,6 @@ class PathAndRename(object):
     def __init__(self, sub_path):
         self.path = sub_path
 
-    
     def __call__(self, instance, filename):
         ext = filename.split(".")[-1]
         filename = filename.split(".")[-1]
