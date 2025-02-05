@@ -4,6 +4,7 @@ from django.views.generic import CreateView, View
 from django.urls import reverse_lazy
 from ..models import CustomUser
 from ..forms import CustomUserCreationForm
+from ..service.mail_sender import send_activation_email
 
 
 class RegisterView(CreateView):
@@ -11,15 +12,17 @@ class RegisterView(CreateView):
     template_name = "accounts/register.html"
     form_class = CustomUserCreationForm
 
-    # success_url = reverse_lazy("store:store_list")
-
     def get_success_url(self):
         return reverse_lazy("store:store_list")
 
     def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.instance
+        print("++++++", user)
+        send_activation_email(user, self.request)
         messages.success(
             self.request, "Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi tizimga kiring.")
-        return super().form_valid(form)
+        return response
 
     def form_invalid(self, form):
         messages.error(self.request, "Iltimos formani to'g'ri to'ldiring!")

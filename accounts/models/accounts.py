@@ -13,6 +13,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
     email = models.EmailField(verbose_name=_("Email"), unique=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name"]
@@ -22,6 +23,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
     def __str__(self):
         return f"{self.first_name}"
 
+    @property
     def get_fullname(self):
         return f"{self.first_name} {self.last_name}"
 
