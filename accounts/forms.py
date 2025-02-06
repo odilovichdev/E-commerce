@@ -96,11 +96,18 @@ class CustomUserCreationForm(forms.ModelForm):
 
         return cleaned_data
 
-    def save(self):
-        user = CustomUser.objects.create_user(
-            **self.cleaned_data
-        )
-        return user
+    # def save(self):
+    #     user = CustomUser.objects.create_user(
+    #         **self.cleaned_data
+    #     )
+    #     return user
+    
+    def save(self, commit=True):
+       user = super(CustomUserCreationForm, self).save(commit=False)
+       user.set_password(self.cleaned_data['password'])
+       if commit:
+           user.save()
+       return user 
 
 
 class UserLoginForm(forms.Form):

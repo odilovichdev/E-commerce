@@ -11,14 +11,12 @@ class RegisterView(CreateView):
     model = CustomUser
     template_name = "accounts/register.html"
     form_class = CustomUserCreationForm
+    success_url = reverse_lazy("accounts:login")
 
-    def get_success_url(self):
-        return reverse_lazy("store:store_list")
 
     def form_valid(self, form):
         response = super().form_valid(form)
         user = form.instance
-        print("++++++", user)
         send_activation_email(user, self.request)
         messages.success(
             self.request, "Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi tizimga kiring.")

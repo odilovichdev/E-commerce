@@ -28,6 +28,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin, BaseModel):
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
-        verbose_name = _("Custom User")
-        verbose_name_plural = _("Custom Users")
+        verbose_name = _("User")
+        verbose_name_plural = _("Users")
         db_table = "accounts"

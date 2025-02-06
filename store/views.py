@@ -18,7 +18,7 @@ from .models.variations import Variation, VariationCategoryChoice
 #         return render(request, 'store/list.html', context)
 
 
-class StoreListView(LoginRequiredMixin, ListView):
+class StoreListView(ListView):
     model = Product
     queryset = Product.objects.filter(is_available=True)
     template_name = 'store/list.html'
@@ -36,7 +36,7 @@ class StoreListView(LoginRequiredMixin, ListView):
 #         return render(request, 'store/detail.html', context)
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(DetailView):
     model = Product
     template_name = 'store/detail.html'
     context_object_name = "product"

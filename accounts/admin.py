@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.translation import gettext_lazy as _
 
 from .models import CustomUser, Profile
 
@@ -17,25 +18,45 @@ class UserAdmin(BaseUserAdmin):
     )
 
     list_filter = ["email", "first_name", "is_active"]
-    fieldsets = [
-        (None, {"fields": ["password"]}),
-        ("Personal info", {"fields": ["email", "first_name", "last_name"]}),
-        ("Permissions", {"fields": ["is_staff", "is_active", "is_superuser"]}),
-    ]
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login",)}),
+    )
 
-    add_fieldsets = [
+    add_fieldsets = (
         (
             None,
             {
-                "classes": ["wide"],
-                "fields": ["email", "first_name", "password1", "password2"],
+                "classes": ("wide",),
+                "fields": ("email", "usable_password", "password", "password2"),
             },
         ),
-    ]
+    )
+
+    
 
     ordering = "email",
     search_fields = ["email"]
-    filter_horizontal = []
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+    )
+
+
+
 
 
 @admin.register(Profile)
