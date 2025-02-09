@@ -13,7 +13,11 @@ def get_activation_link(user, request) -> str:
         domain = get_current_site(request).domain
         uuid64 = urlsafe_base64_encode(force_bytes(user.id))
         token = default_token_generator.make_token(user)
+        if request.path.endswith("send-email/"):
+            return f"http://{domain}/auth/password-reset/{uuid64}/{token}"
         return f"http://{domain}/auth/activate/{uuid64}/{token}"
     except Exception as e:
         logger.error(e)
         raise e
+
+

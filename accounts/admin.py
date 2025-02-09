@@ -11,7 +11,6 @@ class UserAdmin(BaseUserAdmin):
         "email",
         "first_name",
         "last_name",
-        "password",
         "is_active",
         "is_staff",
         "is_superuser"
@@ -46,8 +45,6 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    
-
     ordering = "email",
     search_fields = ["email"]
     filter_horizontal = (
@@ -74,4 +71,4 @@ class ProfileAdmin(admin.ModelAdmin):
         "region",
         "district"
     )
-    search_fields = ("user__name",)
+    search_fields = ("user__first_name",)

@@ -96,18 +96,12 @@ class CustomUserCreationForm(forms.ModelForm):
 
         return cleaned_data
 
-    # def save(self):
-    #     user = CustomUser.objects.create_user(
-    #         **self.cleaned_data
-    #     )
-    #     return user
-    
     def save(self, commit=True):
-       user = super(CustomUserCreationForm, self).save(commit=False)
-       user.set_password(self.cleaned_data['password'])
-       if commit:
-           user.save()
-       return user 
+        user = super(CustomUserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 
 class UserLoginForm(forms.Form):
@@ -133,3 +127,22 @@ class UserLoginForm(forms.Form):
 
     def get_user(self):
         return self.user
+
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label="Send email")
+
+
+class PasswordResetConfirmForm(forms.Form):
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput)
+
+    def clean(self):
+        data = super().clean()
+        password2 = data.pop("password2")
+        password = data.get("password")
+
+        if password and password2 and password2 != password:
+            raise ValidationError("Ikkita password bir xil bo'lishi kerak!")
+
+        return data
