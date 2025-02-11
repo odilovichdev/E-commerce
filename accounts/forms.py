@@ -129,8 +129,14 @@ class UserLoginForm(forms.Form):
         return self.user
 
 
-class PasswordResetRequestForm(forms.Form):
+class PasswordResetForm(forms.Form):
     email = forms.EmailField(label="Send email")
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if not CustomUser.objects.filter(email=email).exists():
+            raise ValidationError("Bu email ro'yxatdan o'tmagan!")
+        return email
 
 
 class PasswordResetConfirmForm(forms.Form):

@@ -4,7 +4,7 @@ from django.views.generic import CreateView, View
 from django.urls import reverse_lazy
 from ..models import CustomUser
 from ..forms import CustomUserCreationForm
-from ..service.mail_sender import send_activation_email
+from ..service.activation_email import send_activation_email
 
 
 class RegisterView(CreateView):

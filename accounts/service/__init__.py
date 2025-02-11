@@ -1,2 +1,2 @@
-from .mail_sender import *
+from .activation_email import *
 from .password_sender import *
