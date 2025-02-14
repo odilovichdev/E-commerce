@@ -67,7 +67,13 @@
                             {% if user.is_authenticated %}
                                 <small class="title text-muted">Welcome {{ user.email }}</small>
                                 <div>
-                                    <a href="{% url "accounts:logout" %}">LogOut</a>
+                                    <a href="{% url "accounts:logout" %}">
+                                        LogOut
+                                    </a>
+                                    <span class="dark-transp">|</span>
+                                    <a href="{% url 'accounts:profile' %}">
+                                        Profile
+                                    </a>
                                 </div>
                             {% else %}
                                 <small class="title text-muted">Welcome guest!</small>

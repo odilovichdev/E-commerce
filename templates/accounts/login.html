@@ -8,17 +8,16 @@
 
 {% block content %}
     <section class="section-conten padding-y" style="min-height:84vh">
-
         <!-- ============================ COMPONENT LOGIN   ================================= -->
         <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
             <div class="card-body">
                 <h4 class="card-title mb-4">Sign in</h4>
                 {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                    {% for message in messages %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
                 <form method="POST">
                     {% csrf_token %}
@@ -28,7 +27,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block"> Login</button>
                     </div> <!-- form-group// -->
-                    <p class="text-center mt-4">Forget Password <a href="#">Recover</a></p>
+                    <p class="text-center mt-4">Forget Password <a href="{% url 'accounts:reset_password' %}">Recover</a></p>
                 </form>
             </div> <!-- card-body.// -->
         </div> <!-- card .// -->

@@ -7,15 +7,13 @@ from asyncio.log import logger
 from django.contrib.auth.tokens import default_token_generator
 
 
-def get_activation_link(user, request) -> str:
+def get_link(user, request, redirect_url:str="activate") -> str:
 
-    try:
+    try: 
         domain = get_current_site(request).domain
         uuid64 = urlsafe_base64_encode(force_bytes(user.id))
         token = default_token_generator.make_token(user)
-        if request.path.endswith("send-email/"):
-            return f"http://{domain}/auth/password-reset/{uuid64}/{token}"
-        return f"http://{domain}/auth/activate/{uuid64}/{token}"
+        return f"http://{domain}/auth/{redirect_url}/{uuid64}/{token}"
     except Exception as e:
         logger.error(e)
         raise e

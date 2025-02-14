@@ -1,9 +1,10 @@
-from django.core.mail import EmailMessage, send_mail, BadHeaderError
-from django.http import HttpResponse
+from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
-from accounts.utils import get_activation_link
+from accounts.utils import get_link
 from common.background_job import run_in_background
 
+
+@run_in_background
 def send_activation_email(user, request):
     try:
         subject = "Activation your account"
@@ -11,7 +12,7 @@ def send_activation_email(user, request):
             "accounts/activation.html",
             {
                 "full_name": user.get_fullname,
-                "activation_link": get_activation_link(user, request)
+                "activation_link": get_link(user, request)
             }
         )
         email = EmailMessage(subject, message, to=[user.email])

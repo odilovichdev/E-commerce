@@ -72,3 +72,4 @@ class ProfileAdmin(admin.ModelAdmin):
         "district"
     )
     search_fields = ("user__first_name",)
+    autocomplete_fields = ["user", "region", "district"]

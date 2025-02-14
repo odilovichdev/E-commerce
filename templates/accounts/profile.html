@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <section class="section-conten padding-y bg">
+
+        <div class="container">
+            <div class="row">
+                <aside class="col-md-3">
+                    <ul class="list-group">
+                        <a class="list-group-item active" href="#"> My order history </a>
+                        <a class="list-group-item" href="#"> Transactions </a>
+                        <a class="list-group-item" href="#"> Return and refunds </a>
+                        <a class="list-group-item" href="#">Settings </a>
+                        <a class="list-group-item" href="#"> My Selling Items </a>
+                        <a class="list-group-item" href="#"> Received orders </a>
+                    </ul>
+                    <br>
+                    <a class="btn btn-light btn-block" href="#"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+
+                </aside>
+                <main class="col-md-9">
+
+                <article class="card">
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                       <div class="container mt-4">
+                            <div class="row">
+                                <!-- Profil rasmi -->
+                                <div class="col-md-4 d-flex flex-column justify-content-between text-center h-100">
+                                    <div>
+                                        {% if instance.avatar %}
+                                            <img src="{{ instance.avatar.url }}" class="img-fluid rounded-circle" width="150">
+                                        {% else %}
+                                            <img src="{% static 'images/default-avatar.png' %}" class="img-fluid rounded-circle" width="150">
+                                        {% endif %}
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mt-4">Edit</button>
+                                </div>
+
+
+                                <!-- Profil ma'lumotlari -->
+                                <div class="col-md-8">
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <th>Avatar</th>
+                                            <td>{{ form.avatar|default:"No image" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Bio</th>
+                                            <td>{{ form.bio|default:"No bio" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Birth Date</th>
+                                            <td>{{ form.birth_date|default:"Not specified" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Region</th>
+                                            <td>{{ form.region|default:"Not specified" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>District</th>
+                                            <td>{{ form.district|default:"Not specified" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Address</th>
+                                            <td>{{ form.address|default:"Not specified" }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </article>
+            </main>
+            </div>
+        </div>
+
+
+</section>
+{% endblock %}
